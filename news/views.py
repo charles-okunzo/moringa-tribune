@@ -3,9 +3,9 @@ from django.http import Http404, HttpResponse
 import datetime as dt
 
 # Create your views here.
-def welcome(request):
-  # return HttpResponse('Welcome to Moringa Tribune')
-  return render(request, 'welcome.html', {'name': 'Charles'})
+# def welcome(request):
+#   # return HttpResponse('Welcome to Moringa Tribune')
+#   return render(request, 'welcome.html', {'name': 'Charles'})
 
 
 def news_of_day(request):
