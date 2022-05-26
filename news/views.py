@@ -54,11 +54,26 @@ def past_days_news(request, past_date):
   if date == dt.date.today():
     redirect(news_today)
 
-  news = Article.days_news()
+  news = Article.days_news(date)
 
   return render(request, 'all-news/passed-news.html', {"date": date, "news":news})
 
   # return HttpResponse(html)
+
+
+
+def search_results(request):
+  if 'article' in request.GET and request.GET['article']:
+    search_term = request.GET.get('article')
+    searched_articles = Article.search_by_title(search_term)
+    message = f'{search_term}'
+
+    return render(request, 'all=news/search.html', {'articles': searched_articles, 'message':message})
+
+  else:
+    message = "You haven't searched for any term"
+
+    return render(request, 'all-news/search.html',{"message":message})
 
 
 
