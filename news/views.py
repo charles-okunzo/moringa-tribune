@@ -68,13 +68,21 @@ def search_results(request):
     searched_articles = Article.search_by_title(search_term)
     message = f'{search_term}'
 
-    return render(request, 'all=news/search.html', {'articles': searched_articles, 'message':message})
+    return render(request, 'all-news/search.html', {'articles': searched_articles, 'message':message})
 
   else:
     message = "You haven't searched for any term"
 
     return render(request, 'all-news/search.html',{"message":message})
 
+def article(request, article_id):
+  try:
+    article = Article.objects.get(id=article_id)
+
+  except ValueError:
+    raise Http404
+
+  return render(request, 'all-news/article.html', {'article': article})
 
 
 
