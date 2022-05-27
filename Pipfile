@@ -9,6 +9,11 @@ django-bootstrap = "*"
 django-bootstrap3 = "*"
 psycopg2 = "*"
 pillow = "*"
+gunicorn = "*"
+whitenoise = "*"
+django-heroku = "*"
+python-decouple = "*"
+dj-database-url = "*"
 
 [dev-packages]
 
