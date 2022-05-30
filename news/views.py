@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render
 from django.http import Http404, HttpResponse
 import datetime as dt
+from news.forms import NewsletterForm
 
 from news.models import Article
 
@@ -13,7 +14,12 @@ from news.models import Article
 def news_today(request):
   date = dt.date.today()
   news = Article.today_news()
-  return render(request, 'all-news/today-news.html', {"date":date, "news":news})
+  form = NewsletterForm()
+  if request.method == 'POST':
+    form = NewsletterForm(request.POST)
+    if form.is_valid():
+      print('Valid!', request.POST)
+  return render(request, 'all-news/today-news.html', {"date":date, "news":news, 'form':form})
   # day = convert_to_day(date)
   # html = f'''
   # <html>
