@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.http import Http404, HttpResponse, HttpResponseRedirect, JsonResponse
 import datetime as dt
 from news.email import send_welcome_email
 from news.forms import NewsletterForm
@@ -16,16 +16,6 @@ def news_today(request):
   date = dt.date.today()
   news = Article.today_news()
   form = NewsletterForm()
-  if request.method == 'POST':
-    form = NewsletterForm(request.POST)
-    if form.is_valid():
-      name = form.cleaned_data['your_name']
-      email = form.cleaned_data['email']
-      recipient = NewsletterRecipient(name = name, email = email)
-      recipient.save()
-      send_welcome_email(name, email)
-      HttpResponseRedirect('news_today')
-      print('Valid!', request.POST)
   return render(request, 'all-news/today-news.html', {"date":date, "news":news, 'form':form})
   # day = convert_to_day(date)
   # html = f'''
@@ -46,6 +36,16 @@ def news_today(request):
 #     day = days[day_number]
 
 #     return day
+
+def newsletter(request):
+  name = request.POST.get('your_name')
+  email = request.POST.get('email')
+  recipient = NewsletterRecipient(name = name, email = email)
+  recipient.save()
+  send_welcome_email(name, email)
+  data = {'data': 'You have been sucessfully added to our mailing list'}
+  return JsonResponse(data)
+
 
 def past_days_news(request, past_date):
   try:
