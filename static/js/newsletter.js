@@ -1,7 +1,7 @@
 $(document).ready(()=>{
-    $('form').submit((e)=>{
+    $('form.newsletter').submit((e)=>{
         e.preventDefault()
-        form = $('form')
+        form = $('form.newsletter')
 
         $.ajax({
             'url':'/ajax/newsletter/',
@@ -9,7 +9,7 @@ $(document).ready(()=>{
             'data': form.serialize(),
             'dataType':'json',
             'success': function(data){
-                alert('You have been sucessfully added to our mailing list')
+                alert(data['success'])
             },
         })
 
